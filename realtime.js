@@ -4,7 +4,7 @@ require('dotenv').config();
 const WebSocket = require('ws');
 const { TOOL_DEFINITIONS, executeTool } = require('./tools');
 
-const OPENAI_REALTIME_URL = 'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01';
+const OPENAI_REALTIME_URL = 'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17';
 
 // Twilio streams mulaw 8kHz; OpenAI expects PCM16 24kHz
 const TWILIO_SAMPLE_RATE  = 8000;

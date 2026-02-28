@@ -30,10 +30,13 @@ function parseDate(dateStr) {
 
   const normalized = dateStr.trim().toLowerCase();
 
-  // ISO date
+  // ISO date — use dynamic PT offset to handle PST (-08:00) vs PDT (-07:00)
   if (/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
-    // Parse as Pacific midnight
-    return new Date(`${normalized}T00:00:00-08:00`);
+    const ptOffset = getPTOffset(new Date(`${normalized}T12:00:00Z`));
+    const sign = ptOffset >= 0 ? '+' : '-';
+    const h = String(Math.floor(Math.abs(ptOffset) / 60)).padStart(2, '0');
+    const m = String(Math.abs(ptOffset) % 60).padStart(2, '0');
+    return new Date(`${normalized}T00:00:00${sign}${h}:${m}`);
   }
 
   const now = new Date();

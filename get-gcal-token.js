@@ -20,8 +20,6 @@ require('dotenv').config();
 const { google } = require('googleapis');
 const http = require('http');
 const url = require('url');
-const open = require('open').default || require('open');
-
 const CLIENT_ID     = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const REDIRECT_URI  = 'http://localhost:3001/oauth2callback';
