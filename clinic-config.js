@@ -72,40 +72,34 @@ function defaultServiceForReturning(lastService) {
 }
 
 /**
- * Builds the full system prompt, injecting caller context.
- *
- * @param {object} callerContext
- * @param {boolean} callerContext.isReturning
- * @param {string|null} callerContext.name
- * @param {string|null} callerContext.email
- * @param {string|null} callerContext.lastService
- * @param {string|null} callerContext.lastAppointmentDate
+ * Returns the string value for the {{callerContext}} dynamic variable.
+ * Called per-call in the Retell webhook.
  */
-function buildSystemPrompt(callerContext = {}) {
-  const { isReturning, name, email, lastService, lastAppointmentDate } = callerContext;
+function buildCallerContextString(callerContext = {}) {
+  const { isReturning, name, email, lastService } = callerContext;
+  if (isReturning && name) {
+    return `Status: returning patient
+Known name: ${name}
+Known email: ${email || 'unknown'}
+Last service: ${lastService || 'unknown'}
+Suggested service: ${defaultServiceForReturning(lastService)}`;
+  }
+  return 'Status: new caller (no record found)';
+}
 
+/**
+ * Builds the static system prompt for the Retell agent.
+ * Uses {{callerContext}} placeholder that Retell fills in dynamically per call.
+ */
+function buildSystemPrompt() {
   const serviceList = SERVICES.map(s =>
     `  - ${s.name}: ${s.duration} min, ${s.priceDisplay}`
   ).join('\n');
 
-  let callerBlock;
-  if (isReturning && name) {
-    const defaultService = defaultServiceForReturning(lastService);
-    callerBlock = `CALLER CONTEXT:
-Status: returning patient
-Known name: ${name}
-Known email: ${email || 'unknown'}
-Last service: ${lastService || 'unknown'}
-Last appointment date: ${lastAppointmentDate || 'unknown'}
-Suggested service to propose: ${defaultService}`;
-  } else {
-    callerBlock = `CALLER CONTEXT:
-Status: new caller (no record found)`;
-  }
-
   return `You are the scheduling assistant for ${CLINIC_NAME}. Your only job is booking appointments by phone — nothing else.
 
-${callerBlock}
+CALLER CONTEXT:
+{{callerContext}}
 
 SERVICES:
 ${serviceList}
@@ -207,4 +201,5 @@ module.exports = {
   getServiceByName,
   defaultServiceForReturning,
   buildSystemPrompt,
+  buildCallerContextString,
 };
