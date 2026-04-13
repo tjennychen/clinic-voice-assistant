@@ -281,3 +281,7 @@ SELECT * FROM appointments ORDER BY created_at DESC LIMIT 10;
 | `get-gcal-token.js` | One-time Google OAuth script |
 | `railway.json` | Railway deploy config |
 | `.env` | Secrets (never committed) |
+
+---
+
+Built by [Jenny Chen](https://linkedin.com/in/tjennychen)
