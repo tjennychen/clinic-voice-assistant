@@ -1,5 +1,9 @@
 'use strict';
 
+const NEW_PATIENT_PRICE = Number(process.env.NEW_PATIENT_PRICE || 255);
+const FOLLOWUP_PRICE = Number(process.env.FOLLOWUP_PRICE || 205);
+const HERBAL_PRICE = Number(process.env.HERBAL_PRICE || 135);
+
 const SERVICES = [
   {
     name: 'Free Consult',
@@ -13,24 +17,24 @@ const SERVICES = [
     name: 'New Patient Acupuncture',
     slug: 'new_patient_acupuncture',
     duration: 75,
-    price: 255,
-    priceDisplay: '$255',
+    price: NEW_PATIENT_PRICE,
+    priceDisplay: `$${NEW_PATIENT_PRICE}`,
     description: '75-minute first acupuncture visit',
   },
   {
     name: 'Follow-Up Acupuncture',
     slug: 'followup_acupuncture',
     duration: 60,
-    price: 205,
-    priceDisplay: '$205',
+    price: FOLLOWUP_PRICE,
+    priceDisplay: `$${FOLLOWUP_PRICE}`,
     description: '60-minute follow-up acupuncture visit',
   },
   {
     name: 'Herbal Consult',
     slug: 'herbal_consult',
     duration: 30,
-    price: 135,
-    priceDisplay: '$135',
+    price: HERBAL_PRICE,
+    priceDisplay: `$${HERBAL_PRICE}`,
     description: '30-minute herbal consultation',
   },
 ];
@@ -39,13 +43,14 @@ const BUSINESS_HOURS = {
   open: 9,    // 9am Pacific
   close: 17,  // 5pm Pacific
   days: 'Monday through Saturday',
-  timezone: 'America/Los_Angeles',
+  timezone: process.env.CLINIC_TIMEZONE || 'America/Los_Angeles',
   timezoneDisplay: 'Pacific',
 };
 
-const CLINIC_NAME = 'Puzzle Acupuncture';
-const CLINIC_ADDRESS = ''; // fill in if needed
-const CLINIC_PHONE = process.env.TWILIO_PHONE_NUMBER || '';
+const CLINIC_NAME = process.env.CLINIC_NAME || 'Acme Acupuncture';
+const CLINIC_ADDRESS = process.env.CLINIC_ADDRESS || '';
+const CLINIC_PHONE = process.env.CLINIC_PHONE || process.env.TWILIO_PHONE_NUMBER || '';
+const PRACTITIONER_NAME = process.env.PRACTITIONER_NAME || 'the practitioner';
 
 function getServiceBySlug(slug) {
   return SERVICES.find(s => s.slug === slug) || null;
@@ -197,6 +202,7 @@ module.exports = {
   CLINIC_NAME,
   CLINIC_ADDRESS,
   CLINIC_PHONE,
+  PRACTITIONER_NAME,
   getServiceBySlug,
   getServiceByName,
   defaultServiceForReturning,

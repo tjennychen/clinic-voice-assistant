@@ -4,8 +4,7 @@ require('dotenv').config();
 const twilio = require('twilio');
 const { Resend } = require('resend');
 const { formatDateForDisplay, formatTimeForDisplay } = require('./google-calendar');
-
-const CLINIC_NAME = 'Puzzle Acupuncture';
+const { CLINIC_NAME } = require('./clinic-config');
 
 function getTwilioClient() {
   return twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);

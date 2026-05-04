@@ -20,7 +20,7 @@ app.use(express.json());
 // ---------------------------------------------------------------------------
 
 app.get('/', (req, res) => {
-  res.send('Puzzle Acupuncture voice assistant — running.');
+  res.send('Clinic voice assistant — running.');
 });
 
 // ---------------------------------------------------------------------------

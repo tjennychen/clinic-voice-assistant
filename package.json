@@ -1,7 +1,7 @@
 {
   "name": "clinic-voice-assistant",
   "version": "1.0.0",
-  "description": "Puzzle Acupuncture phone bot — books appointments via voice",
+  "description": "Single-practitioner clinic phone bot that books appointments via voice",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
